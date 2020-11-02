@@ -1,0 +1,50 @@
+
+{% extends 'base.html' %}
+{% block title %} Let's Quiz | Home {% endblock title %}
+{% block content %}
+<div style="margin:5%;">
+<h1>Question #{{ question.id }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if question.question_type == 'real/fake' %}
+<h2> Which of the following two images looks more real?  </h2>
+<p>You will have ONE SECOND to choose. When you are ready, chick the button to display images.</p>
+
+<form action="{% url 'FEdit:vote' question.id %}" method="post">
+    {% csrf_token %}
+    <button onclick="this.disabled=true; hideImage('A'); hideImage('B');">Ready to see images</button>
+    <table>
+        <tr>
+            {% for choice in question.choice_set.all %}
+            <td> 
+               <img id='{{ choice.choice_text }}', src="{{ choice.query_image}}" height=256 width=176 style="visibility: hidden;" /> </br>
+               <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+              <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+</br>
+    <input class="pure-button-primary" type="submit" value="Vote and go to next question">
+</form>
+
+
+{% else %}
+<h2> Given the model and clothes, which of the following two images show the given model wearing the given clothes?  </h2>
+
+{% endif %}
+
+
+</div>
+
+<script type="text/javascript">
+	function hideImage(pic_id){
+		//  1000 = 5 seconds
+        // display the image
+        document.getElementById(pic_id).style.visibility="visible";
+        // hide the image
+		setTimeout(function(){document.getElementById(pic_id).style.visibility="hidden";}, 1000 );
+	}
+</script>
+{% endblock content %}
