@@ -1,5 +1,5 @@
 # Human Study User Interface
-This web app is developed for human study Computer Vision research, especially GAN related tasks.
+This web app is developed for human study in Computer Vision research, especially for GAN related tasks.
 We implemented:
 1. __Just Noticeable Difference (JND)__: show user an image for one second and ask real/fake
 2. __A/B Test__: Given reference images, ask user whether query 1 or query 2 has better quality.
